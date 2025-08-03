@@ -1,6 +1,5 @@
-// Roblox Alive Popup - Full UI created by script - NO ICONS VERSION
+// Roblox Alive Popup - Full UI with Emojis - NO ICONS
 
-// Clear any existing body content
 document.body.innerHTML = '';
 document.body.style.margin = '0';
 document.body.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
@@ -9,7 +8,6 @@ document.body.style.color = '#222';
 document.body.style.minWidth = '350px';
 document.body.style.padding = '12px';
 
-// Utility to create elements quickly
 function createElem(type, props = {}, ...children) {
   const el = document.createElement(type);
   Object.entries(props).forEach(([k,v]) => {
@@ -25,7 +23,6 @@ function createElem(type, props = {}, ...children) {
   return el;
 }
 
-// Basic style injection for buttons and layout
 const style = createElem('style');
 style.textContent = `
   button {
@@ -87,25 +84,23 @@ style.textContent = `
   }
 `;
 
-// Append style
 document.head.appendChild(style);
 
-// Create main container
 const container = createElem('div', {className: 'container'});
 
-// 1) General Features Section
+// 🎮 General Features Section
 const generalSection = createElem('div', {className: 'section'});
-generalSection.appendChild(createElem('h2', {}, 'General Features'));
+generalSection.appendChild(createElem('h2', {}, '🎮 General Features'));
 
 // Server info display
 const serverInfo = createElem('div');
-serverInfo.appendChild(createElem('div', {}, 'Server Region: ', createElem('span', {id:'server-region'}, 'Loading...')));
-serverInfo.appendChild(createElem('div', {}, 'Server Version: ', createElem('span', {id:'server-version'}, 'Loading...')));
-serverInfo.appendChild(createElem('div', {}, 'Server Uptime: ', createElem('span', {id:'server-uptime'}, 'Loading...')));
+serverInfo.appendChild(createElem('div', {}, '🌍 Server Region: ', createElem('span', {id:'server-region'}, 'Loading...')));
+serverInfo.appendChild(createElem('div', {}, '🛠️ Server Version: ', createElem('span', {id:'server-version'}, 'Loading...')));
+serverInfo.appendChild(createElem('div', {}, '⏱️ Server Uptime: ', createElem('span', {id:'server-uptime'}, 'Loading...')));
 generalSection.appendChild(serverInfo);
 
 // Server filters (region, connection, uptime)
-const filterTitle = createElem('label', {for:'filter-region'}, 'Server Filters:');
+const filterTitle = createElem('label', {for:'filter-region'}, '🔍 Server Filters:');
 const filterRegionInput = createElem('input', {type:'text', id:'filter-region', placeholder:'Region filter'});
 const filterConnectionInput = createElem('input', {type:'text', id:'filter-connection', placeholder:'Connection filter'});
 const filterUptimeInput = createElem('input', {type:'text', id:'filter-uptime', placeholder:'Uptime filter'});
@@ -115,18 +110,18 @@ generalSection.appendChild(filterConnectionInput);
 generalSection.appendChild(filterUptimeInput);
 
 // RoPro theme color customization
-generalSection.appendChild(createElem('label', {for:'theme-color'}, 'Customize RoPro Theme Color:'));
+generalSection.appendChild(createElem('label', {for:'theme-color'}, '🎨 Customize RoPro Theme Color:'));
 const themeColorInput = createElem('input', {type:'color', id:'theme-color', value:'#0078d7'});
 generalSection.appendChild(themeColorInput);
 
 // Live counters (like, dislike, favorite, visits, players)
-generalSection.appendChild(createElem('div', {style:{marginTop:'10px', fontWeight:'600'}}, 'Live Counters:'));
+generalSection.appendChild(createElem('div', {style:{marginTop:'10px', fontWeight:'600'}}, '📊 Live Counters:'));
 
-const liveLikes = createElem('div', {}, 'Likes: ', createElem('span', {id:'live-likes'}, '0'));
-const liveDislikes = createElem('div', {}, 'Dislikes: ', createElem('span', {id:'live-dislikes'}, '0'));
-const liveFavorites = createElem('div', {}, 'Favorites: ', createElem('span', {id:'live-favorites'}, '0'));
-const liveVisits = createElem('div', {}, 'Visits: ', createElem('span', {id:'live-visits'}, '0'));
-const livePlayers = createElem('div', {}, 'Players: ', createElem('span', {id:'live-players'}, '0'));
+const liveLikes = createElem('div', {}, '👍 Likes: ', createElem('span', {id:'live-likes'}, '0'));
+const liveDislikes = createElem('div', {}, '👎 Dislikes: ', createElem('span', {id:'live-dislikes'}, '0'));
+const liveFavorites = createElem('div', {}, '⭐ Favorites: ', createElem('span', {id:'live-favorites'}, '0'));
+const liveVisits = createElem('div', {}, '👥 Visits: ', createElem('span', {id:'live-visits'}, '0'));
+const livePlayers = createElem('div', {}, '🎲 Players: ', createElem('span', {id:'live-players'}, '0'));
 
 generalSection.appendChild(liveLikes);
 generalSection.appendChild(liveDislikes);
@@ -136,30 +131,30 @@ generalSection.appendChild(livePlayers);
 
 container.appendChild(generalSection);
 
-// 2) Avatar Sandbox Outfits (Save outfits)
+// 🕺 Avatar Sandbox Outfits (Save outfits)
 const avatarSection = createElem('div', {className: 'section'});
-avatarSection.appendChild(createElem('h2', {}, 'Avatar Sandbox'));
-const saveOutfitBtn = createElem('button', {id:'save-outfit-btn'}, 'Save Current Outfit');
+avatarSection.appendChild(createElem('h2', {}, '🕺 Avatar Sandbox'));
+const saveOutfitBtn = createElem('button', {id:'save-outfit-btn'}, '💾 Save Current Outfit');
 avatarSection.appendChild(saveOutfitBtn);
 
 container.appendChild(avatarSection);
 
-// 3) Friends Page - More Mutuals
+// 🤝 Friends Page - More Mutuals
 const friendsSection = createElem('div', {className: 'section'});
-friendsSection.appendChild(createElem('h2', {}, 'Friends Page'));
-const loadMutualsBtn = createElem('button', {id:'load-mutuals-btn'}, 'Load More Mutual Friends');
+friendsSection.appendChild(createElem('h2', {}, '🤝 Friends Page'));
+const loadMutualsBtn = createElem('button', {id:'load-mutuals-btn'}, '👥 Load More Mutual Friends');
 friendsSection.appendChild(loadMutualsBtn);
 container.appendChild(friendsSection);
 
-// 4) Trading Features Section
+// 💰 Trading Features Section
 const tradeSection = createElem('div', {className: 'section'});
-tradeSection.appendChild(createElem('h2', {}, 'Trading Features'));
+tradeSection.appendChild(createElem('h2', {}, '💰 Trading Features'));
 
 // Trade value calculator input and button
-tradeSection.appendChild(createElem('label', {for:'trade-items-input'}, 'Enter trade items (comma separated):'));
+tradeSection.appendChild(createElem('label', {for:'trade-items-input'}, '📝 Enter trade items (comma separated):'));
 const tradeItemsInput = createElem('input', {type:'text', id:'trade-items-input', placeholder:'Item1, Item2, ...'});
 tradeSection.appendChild(tradeItemsInput);
-const calcTradeValueBtn = createElem('button', {id:'calc-trade-value-btn'}, 'Calculate Trade Value');
+const calcTradeValueBtn = createElem('button', {id:'calc-trade-value-btn'}, '🧮 Calculate Trade Value');
 tradeSection.appendChild(calcTradeValueBtn);
 
 // Trade demand rating (placeholder display)
@@ -168,94 +163,44 @@ tradeSection.appendChild(tradeDemandDisplay);
 
 // More trade panel buttons (placeholders)
 const tradePanelBtns = createElem('div', {style:{marginTop:'10px'}});
-tradePanelBtns.appendChild(createElem('button', {id:'btn-trade-search'}, 'Trade Search'));
-tradePanelBtns.appendChild(createElem('button', {id:'btn-advanced-search', className:'small-btn'}, 'Advanced Search'));
-tradePanelBtns.appendChild(createElem('button', {id:'btn-show-value-diff', className:'small-btn'}, 'Show Value Difference'));
-tradePanelBtns.appendChild(createElem('button', {id:'btn-rap-requirement', className:'small-btn'}, 'Under/Over RAP'));
-tradePanelBtns.appendChild(createElem('button', {id:'btn-trade-warnings', className:'small-btn'}, 'Trade Warnings'));
-tradePanelBtns.appendChild(createElem('button', {id:'btn-rolimons-links', className:'small-btn'}, 'Rolimons Links'));
-tradePanelBtns.appendChild(createElem('button', {id:'btn-trade-offers'}, 'Trade Offers Page'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-trade-search'}, '🔎 Trade Search'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-advanced-search', className:'small-btn'}, '⚙️ Advanced Search'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-show-value-diff', className:'small-btn'}, '📉 Show Value Difference'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-rap-requirement', className:'small-btn'}, '📊 Under/Over RAP'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-trade-warnings', className:'small-btn'}, '⚠️ Trade Warnings'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-rolimons-links', className:'small-btn'}, '🔗 Rolimons Links'));
+tradePanelBtns.appendChild(createElem('button', {id:'btn-trade-offers'}, '📄 Trade Offers Page'));
 tradeSection.appendChild(tradePanelBtns);
 
 container.appendChild(tradeSection);
 
-// 5) Account Security Features
+// 🔒 Account Security Features
 const securitySection = createElem('div', {className: 'section'});
-securitySection.appendChild(createElem('h2', {}, 'Account Security Features'));
+securitySection.appendChild(createElem('h2', {}, '🔒 Account Security Features'));
 
-securitySection.appendChild(createElem('label', {for:'auto-decline-threshold'}, 'Auto-Decline Loss Threshold (%):'));
+securitySection.appendChild(createElem('label', {for:'auto-decline-threshold'}, '⛔ Auto-Decline Loss Threshold (%):'));
 const autoDeclineInput = createElem('input', {type:'number', id:'auto-decline-threshold', min:'0', max:'100', value:'50'});
 securitySection.appendChild(autoDeclineInput);
 
-securitySection.appendChild(createElem('button', {id:'btn-outbound-trade-protect'}, 'Enable Outbound Trade Protection'));
-securitySection.appendChild(createElem('button', {id:'btn-set-cancel-threshold'}, 'Set Trade Cancel Threshold'));
+securitySection.appendChild(createElem('label', {for:'trade-cancel-threshold'}, '❌ Outbound Trade Cancel Threshold (%):'));
+const tradeCancelInput = createElem('input', {type:'number', id:'trade-cancel-threshold', min:'0', max:'100', value:'30'});
+securitySection.appendChild(tradeCancelInput);
 
 container.appendChild(securitySection);
 
-// Append container to body
 document.body.appendChild(container);
 
-
-// =====================
-// Placeholder logic for UI interactions and dummy data updates
-// Replace or hook up with your API calls and real logic as needed!
-
-// Update live counters every 10 seconds (dummy random values)
-function updateLiveCounters() {
-  document.getElementById('live-likes').textContent = Math.floor(Math.random() * 10000);
-  document.getElementById('live-dislikes').textContent = Math.floor(Math.random() * 5000);
-  document.getElementById('live-favorites').textContent = Math.floor(Math.random() * 20000);
-  document.getElementById('live-visits').textContent = Math.floor(Math.random() * 100000);
-  document.getElementById('live-players').textContent = Math.floor(Math.random() * 5000);
-}
-updateLiveCounters();
-setInterval(updateLiveCounters, 10000);
-
-// Dummy server info
-document.getElementById('server-region').textContent = 'US-East';
-document.getElementById('server-version').textContent = 'v1.24.7';
-document.getElementById('server-uptime').textContent = '12h 34m';
-
-// Theme color changer
-themeColorInput.addEventListener('input', (e) => {
-  document.body.style.backgroundColor = e.target.value + '20'; // light transparent bg
-});
-
-// Save outfit button
-saveOutfitBtn.addEventListener('click', () => {
-  alert('Saving outfit... (hook this up to your actual avatar sandbox logic)');
-});
-
-// Load more mutuals button
-loadMutualsBtn.addEventListener('click', () => {
-  alert('Loading more mutual friends... (hook up to friends page enhancements)');
-});
-
-// Calculate trade value button
-calcTradeValueBtn.addEventListener('click', () => {
-  const items = tradeItemsInput.value.split(',').map(i => i.trim()).filter(Boolean);
-  if(items.length === 0) {
-    alert('Please enter some trade items.');
-    return;
-  }
-  // Dummy calculation: sum length of all item names * 10
+// Example event listeners for buttons (replace with real logic)
+saveOutfitBtn.onclick = () => alert('Saving your avatar outfit! 💾');
+loadMutualsBtn.onclick = () => alert('Loading more mutual friends! 👥');
+calcTradeValueBtn.onclick = () => {
+  const items = tradeItemsInput.value.split(',').map(i => i.trim()).filter(i => i);
+  if(items.length === 0) return alert('Please enter at least one item.');
+  // Fake calc: sum length of item names * 10 as example
   const value = items.reduce((sum, item) => sum + item.length * 10, 0);
-  const demandRating = Math.min(5, items.length); // dummy rating
-  document.getElementById('trade-demand-rating').textContent = `Demand Rating: ${demandRating}/5, Total Value: ${value} Robux`;
-});
+  alert(`Estimated trade value: ${value} Robux 💰`);
+  tradeDemandDisplay.textContent = `Demand Rating: ⭐${Math.min(5, Math.floor(value / 100))} / 5`;
+};
 
-// Other trade panel buttons (dummy alerts)
-document.getElementById('btn-trade-search').addEventListener('click', () => alert('Trade Search clicked!'));
-document.getElementById('btn-advanced-search').addEventListener('click', () => alert('Advanced Search clicked!'));
-document.getElementById('btn-show-value-diff').addEventListener('click', () => alert('Value Difference toggled!'));
-document.getElementById('btn-rap-requirement').addEventListener('click', () => alert('Under/Over RAP toggled!'));
-document.getElementById('btn-trade-warnings').addEventListener('click', () => alert('Trade Warnings toggled!'));
-document.getElementById('btn-rolimons-links').addEventListener('click', () => alert('Rolimons links opened!'));
-document.getElementById('btn-trade-offers').addEventListener('click', () => alert('Trade Offers page opened!'));
+// The rest of the buttons can be hooked similarly...
 
-// Account security buttons
-document.getElementById('btn-outbound-trade-protect').addEventListener('click', () => alert('Outbound trade protection enabled!'));
-document.getElementById('btn-set-cancel-threshold').addEventListener('click', () => {
-  const threshold = autoDeclineInput.value;
-  alert(`Trade cancel threshold set to ${threshold}%`);
-});
