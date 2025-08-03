@@ -1,25 +1,145 @@
-/* --- NEW: Interactive Ripple Click Effect --- */
+/* --- Roblox Alive - Core Animation Classes --- */
 
-/* This makes sure the ripple stays inside the button */
-.rblx-alive-ripple-container {
-  position: relative !important; /* Must be relative to position the ripple inside */
-  overflow: hidden !important;   /* Hides the parts of the ripple that go outside */
+/* Roblox Alive - Pulse animation for play button */
+.rblx-alive-pulse {
+  animation: rblx-alive-pulse-animation 2s infinite !important;
 }
 
-/* This is the style for the ripple circle itself */
+@keyframes rblx-alive-pulse-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Roblox Alive - Glow animation for robux icon */
+.rblx-alive-glow {
+  animation: rblx-alive-glow-animation 3s ease-in-out infinite alternate !important;
+}
+
+@keyframes rblx-alive-glow-animation {
+  from { box-shadow: 0 0 5px rgba(0, 162, 255, 0.5); }
+  to { box-shadow: 0 0 20px rgba(0, 162, 255, 0.8); }
+}
+
+/* Roblox Alive - Floating animation for badges */
+.rblx-alive-float {
+  animation: rblx-alive-float-animation 3s ease-in-out infinite !important;
+}
+
+@keyframes rblx-alive-float-animation {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* --- Roblox Alive - Interactive Ripple Click Effect --- */
+
+.rblx-alive-ripple-container {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
 .rblx-alive-ripple-effect {
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.4); /* A semi-transparent white */
+  background-color: rgba(255, 255, 255, 0.4);
   transform: scale(0);
   animation: rblx-alive-ripple-animation 0.6s linear;
-  pointer-events: none; /* The ripple itself should not be clickable */
+  pointer-events: none;
 }
 
-/* This is the animation that makes the ripple expand and fade */
 @keyframes rblx-alive-ripple-animation {
   to {
     transform: scale(4);
     opacity: 0;
   }
+}
+
+/* --- Roblox Alive - Game Statistics Styling --- */
+
+.rblx-alive-stats-container {
+  background: rgba(0, 162, 255, 0.1);
+  border: 1px solid rgba(0, 162, 255, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  display: inline-block;
+}
+
+.rblx-alive-stats-container strong {
+  color: #00a2ff;
+  font-size: 14px;
+}
+
+.rblx-alive-stats-container span {
+  color: #666;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+/* Roblox Alive - Enhanced stats styling */
+.rblx-alive-enhanced-stats {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(0, 162, 255, 0.1), rgba(0, 162, 255, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(0, 162, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 162, 255, 0.1);
+}
+
+.rblx-alive-stat-item {
+  text-align: center;
+  flex: 1;
+  padding: 5px;
+}
+
+.rblx-alive-stat-value {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00a2ff;
+  margin-bottom: 4px;
+}
+
+.rblx-alive-stat-label {
+  display: block;
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- Roblox Alive - Additional Enhancements --- */
+
+/* Roblox Alive - Smooth hover effects for game thumbnails */
+.game-card-thumb {
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.game-card-thumb:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 8px 25px rgba(0, 162, 255, 0.3) !important;
+}
+
+/* Roblox Alive - Loading shimmer effect */
+@keyframes rblx-alive-shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.rblx-alive-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: rblx-alive-shimmer 2s infinite;
+}
+
+/* Roblox Alive - Smooth transitions for buttons */
+button, .btn {
+  transition: all 0.3s ease !important;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
