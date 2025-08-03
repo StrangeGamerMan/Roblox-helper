@@ -1,203 +1,197 @@
-// --- Function to find an element safely and wait for it if needed ---
-function waitForElement(selector, timeout = 10000) {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(selector)) {
-      return resolve(document.querySelector(selector));
-    }
-    
-    const observer = new MutationObserver(mutations => {
-      if (document.querySelector(selector)) {
-        resolve(document.querySelector(selector));
-        observer.disconnect();
-      }
-    });
-    
-    observer.observe(document.body, { childList: true, subtree: true });
-    
-    // Add timeout to prevent infinite waiting
-    setTimeout(() => {
-      observer.disconnect();
-      reject(new Error(`Roblox Alive: Element ${selector} not found within ${timeout}ms`));
-    }, timeout);
-  });
-}
+// Roblox Alive - Main Content Script Controller
+class RobloxAliveController {
+  constructor() {
+    this.currentPage = this.detectPageType();
+    this.settings = null;
+    this.features = {};
+    this.init();
+  }
 
-// --- Function to check user settings ---
-async function getRobloxAliveSettings() {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get(['rblxAliveAnimations', 'rblxAliveGameStats', 'rblxAliveClickEffects'], function(result) {
-      resolve({
-        animations: result.rblxAliveAnimations !== false,
-        gameStats: result.rblxAliveGameStats !== false,
-        clickEffects: result.rblxAliveClickEffects !== false
+  async init() {
+    console.log("Roblox Alive v2.0: Initializing...");
+    
+    try {
+      // Load user settings
+      this.settings = await this.loadSettings();
+      
+      // Initialize core features
+      await this.initializeFeatures();
+      
+      // Start page-specific features
+      await this.initializePageFeatures();
+      
+      console.log("Roblox Alive: All features initialized successfully!");
+    } catch (error) {
+      console.error("Roblox Alive: Initialization error:", error);
+    }
+  }
+
+  detectPageType() {
+    const path = window.location.pathname;
+    const hostname = window.location.hostname;
+    
+    if (path.includes('/games/')) return 'game';
+    if (path.includes('/users/')) return 'profile';
+    if (path.includes('/groups/')) return 'group';
+    if (path.includes('/my/avatar')) return 'avatar';
+    if (path.includes('/trades')) return 'trading';
+    if (path === '/' || path === '/home') return 'homepage';
+    if (path.includes('/discover')) return 'discover';
+    if (path.includes('/develop')) return 'develop';
+    
+    return 'unknown';
+  }
+
+  async loadSettings() {
+    return new Promise((resolve) => {
+      chrome.storage.sync.get([
+        // Core settings
+        'rblxAliveAnimations',
+        'rblxAliveGameStats',
+        'rblxAliveClickEffects',
+        
+        // Theme settings
+        'rblxAliveProfileThemes',
+        'rblxAliveGlobalThemes',
+        'rblxAliveSelectedTheme',
+        
+        // Game features
+        'rblxAliveQuickPlay',
+        'rblxAliveQuickSearch',
+        'rblxAlivePlaytimeTracking',
+        'rblxAliveServerFilters',
+        'rblxAliveMostPlayed',
+        
+        // Profile features
+        'rblxAliveMutualFriends',
+        'rblxAliveReputation',
+        'rblxAliveLastOnline',
+        'rblxAliveLinkedDiscord',
+        
+        // Trading features
+        'rblxAliveTradingPanel',
+        'rblxAliveItemInfo',
+        'rblxAliveQuickDecline',
+        'rblxAliveQuickCancel'
+      ], (result) => {
+        const settings = {
+          // Set defaults for all settings
+          animations: result.rblxAliveAnimations !== false,
+          gameStats: result.rblxAliveGameStats !== false,
+          clickEffects: result.rblxAliveClickEffects !== false,
+          profileThemes: result.rblxAliveProfileThemes !== false,
+          globalThemes: result.rblxAliveGlobalThemes !== false,
+          selectedTheme: result.rblxAliveSelectedTheme || 'default',
+          quickPlay: result.rblxAliveQuickPlay !== false,
+          quickSearch: result.rblxAliveQuickSearch !== false,
+          playtimeTracking: result.rblxAlivePlaytimeTracking !== false,
+          serverFilters: result.rblxAliveServerFilters !== false,
+          mostPlayed: result.rblxAliveMostPlayed !== false,
+          mutualFriends: result.rblxAliveMutualFriends !== false,
+          reputation: result.rblxAliveReputation !== false,
+          lastOnline: result.rblxAliveLastOnline !== false,
+          linkedDiscord: result.rblxAliveLinkedDiscord !== false,
+          tradingPanel: result.rblxAliveTradingPanel !== false,
+          itemInfo: result.rblxAliveItemInfo !== false,
+          quickDecline: result.rblxAliveQuickDecline !== false,
+          quickCancel: result.rblxAliveQuickCancel !== false
+        };
+        resolve(settings);
       });
     });
-  });
-}
-
-// --- Function to Apply Passive Animations ---
-async function applyRobloxAliveAnimations() {
-  const settings = await getRobloxAliveSettings();
-  if (!settings.animations) return;
-  
-  console.log("Roblox Alive: Applying passive animations...");
-  
-  try {
-    const playButton = await waitForElement('#game-details-play-button-container button');
-    if (playButton) {
-      playButton.classList.add('rblx-alive-pulse');
-    }
-  } catch (error) {
-    console.log("Roblox Alive: Play button not found for animations");
   }
 
-  try {
-    const robuxIcon = await waitForElement('a[href="/robux"]');
-    if (robuxIcon) {
-      robuxIcon.classList.add('rblx-alive-glow');
-    }
-  } catch (error) {
-    console.log("Roblox Alive: Robux icon not found for animations");
+  async initializeFeatures() {
+    // Initialize feature classes
+    this.features.animations = new RobloxAliveAnimations(this.settings);
+    this.features.themes = new RobloxAliveThemes(this.settings);
+    this.features.profiles = new RobloxAliveProfiles(this.settings);
+    this.features.games = new RobloxAliveGames(this.settings);
+    this.features.servers = new RobloxAliveServers(this.settings);
+    this.features.trading = new RobloxAliveTrading(this.settings);
   }
 
-  // Add floating animation to badges
-  try {
-    const badges = await waitForElement('.badge-container');
-    if (badges) {
-      const badgeElements = badges.querySelectorAll('.badge');
-      badgeElements.forEach(badge => {
-        badge.classList.add('rblx-alive-float');
-      });
+  async initializePageFeatures() {
+    switch (this.currentPage) {
+      case 'homepage':
+        await this.initializeHomepageFeatures();
+        break;
+      case 'game':
+        await this.initializeGameFeatures();
+        break;
+      case 'profile':
+        await this.initializeProfileFeatures();
+        break;
+      case 'trading':
+        await this.initializeTradingFeatures();
+        break;
+      case 'avatar':
+        await this.initializeAvatarFeatures();
+        break;
+      default:
+        await this.initializeGlobalFeatures();
     }
-  } catch (error) {
-    console.log("Roblox Alive: Badges not found for animations");
   }
-}
 
-// --- Function to Add Improved Game Statistics ---
-async function addRobloxAliveGameStats() {
-  const settings = await getRobloxAliveSettings();
-  if (!settings.gameStats) return;
-  
-  console.log("Roblox Alive: Checking for game stats...");
-  const universeId = document.body.dataset.universeId;
-  if (!universeId) return;
-
-  try {
-    const response = await fetch(`https://games.roblox.com/v1/games/votes?universeIds=${universeId}`);
-    const data = await response.json();
-    const votes = data.data[0];
-    if (!votes) return;
-
-    const upVotes = votes.upVotes;
-    const downVotes = votes.downVotes;
-    const totalVotes = upVotes + downVotes;
-    const likeRatio = totalVotes > 0 ? ((upVotes / totalVotes) * 100).toFixed(1) : "N/A";
-
-    const robloxAliveStatsElement = document.createElement('div');
-    robloxAliveStatsElement.className = 'rblx-alive-stats-container';
-    robloxAliveStatsElement.innerHTML = `<strong>${likeRatio}%</strong><span>Like Ratio</span>`;
-
-    const voteContainer = await waitForElement('#game-voting-buttons-container');
-    if (voteContainer && !document.querySelector('.rblx-alive-stats-container')) {
-      voteContainer.appendChild(robloxAliveStatsElement);
-      console.log("Roblox Alive: Game stats successfully added!");
+  async initializeHomepageFeatures() {
+    if (this.settings.mostPlayed) {
+      await this.features.games.addMostPlayedSection();
     }
-  } catch (error) {
-    console.error("Roblox Alive: Failed to fetch or process game votes.", error);
+    if (this.settings.animations) {
+      await this.features.animations.applyHomepageAnimations();
+    }
   }
-}
 
-// --- Function to Add Enhanced Game Statistics ---
-async function addRobloxAliveEnhancedGameStats() {
-  const settings = await getRobloxAliveSettings();
-  if (!settings.gameStats) return;
-  
-  console.log("Roblox Alive: Adding enhanced game statistics...");
-  const universeId = document.body.dataset.universeId;
-  if (!universeId) return;
-
-  try {
-    const [votesResponse, detailsResponse] = await Promise.all([
-      fetch(`https://games.roblox.com/v1/games/votes?universeIds=${universeId}`),
-      fetch(`https://games.roblox.com/v1/games?universeIds=${universeId}`)
-    ]);
-
-    const votesData = await votesResponse.json();
-    const detailsData = await detailsResponse.json();
-    
-    const votes = votesData.data[0];
-    const gameDetails = detailsData.data[0];
-
-    if (votes && gameDetails) {
-      const upVotes = votes.upVotes;
-      const downVotes = votes.downVotes;
-      const totalVotes = upVotes + downVotes;
-      const likeRatio = totalVotes > 0 ? ((upVotes / totalVotes) * 100).toFixed(1) : "N/A";
-      const playing = gameDetails.playing;
-      const visits = gameDetails.visits;
-
-      const robloxAliveEnhancedStatsContainer = document.createElement('div');
-      robloxAliveEnhancedStatsContainer.className = 'rblx-alive-enhanced-stats';
-      robloxAliveEnhancedStatsContainer.innerHTML = `
-        <div class="rblx-alive-stat-item">
-          <span class="rblx-alive-stat-value">${likeRatio}%</span>
-          <span class="rblx-alive-stat-label">Like Ratio</span>
-        </div>
-        <div class="rblx-alive-stat-item">
-          <span class="rblx-alive-stat-value">${playing.toLocaleString()}</span>
-          <span class="rblx-alive-stat-label">Playing Now</span>
-        </div>
-        <div class="rblx-alive-stat-item">
-          <span class="rblx-alive-stat-value">${visits.toLocaleString()}</span>
-          <span class="rblx-alive-stat-label">Total Visits</span>
-        </div>
-      `;
-
-      const gameDetailsContainer = await waitForElement('.game-details-container');
-      if (gameDetailsContainer && !document.querySelector('.rblx-alive-enhanced-stats')) {
-        gameDetailsContainer.appendChild(robloxAliveEnhancedStatsContainer);
-        console.log("Roblox Alive: Enhanced game stats successfully added!");
-      }
+  async initializeGameFeatures() {
+    if (this.settings.gameStats) {
+      await this.features.games.addEnhancedGameStats();
     }
-  } catch (error) {
-    console.error("Roblox Alive: Enhanced stats error:", error);
+    if (this.settings.quickPlay) {
+      await this.features.games.addQuickPlayFeatures();
+    }
+    if (this.settings.serverFilters) {
+      await this.features.servers.addServerFilters();
+    }
+  }
+
+  async initializeProfileFeatures() {
+    if (this.settings.profileThemes) {
+      await this.features.themes.applyProfileTheme();
+    }
+    if (this.settings.mutualFriends) {
+      await this.features.profiles.showMutualFriends();
+    }
+    if (this.settings.reputation) {
+      await this.features.profiles.addReputationSystem();
+    }
+  }
+
+  async initializeTradingFeatures() {
+    if (this.settings.tradingPanel) {
+      await this.features.trading.addTradingPanel();
+    }
+    if (this.settings.quickDecline) {
+      await this.features.trading.addQuickActions();
+    }
+  }
+
+  async initializeAvatarFeatures() {
+    // Avatar editor enhancements
+    console.log("Roblox Alive: Initializing avatar features...");
+  }
+
+  async initializeGlobalFeatures() {
+    if (this.settings.animations) {
+      await this.features.animations.applyGlobalAnimations();
+    }
+    if (this.settings.globalThemes) {
+      await this.features.themes.applyGlobalTheme();
+    }
+    if (this.settings.clickEffects) {
+      await this.features.animations.initializeClickEffects();
+    }
   }
 }
 
-// --- Function to Create Interactive Click Effects ---
-async function createRobloxAliveInteractiveClickEffects() {
-  const settings = await getRobloxAliveSettings();
-  if (!settings.clickEffects) return;
-  
-  document.addEventListener('mousedown', function(e) {
-    const target = e.target.closest('button, a, [role="button"]');
-
-    if (target) {
-      target.classList.add('rblx-alive-ripple-container');
-
-      const robloxAliveRipple = document.createElement('span');
-      robloxAliveRipple.classList.add('rblx-alive-ripple-effect');
-
-      const rect = target.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      robloxAliveRipple.style.width = robloxAliveRipple.style.height = `${size}px`;
-      robloxAliveRipple.style.left = `${e.clientX - rect.left - size / 2}px`;
-      robloxAliveRipple.style.top = `${e.clientY - rect.top - size / 2}px`;
-
-      target.appendChild(robloxAliveRipple);
-
-      setTimeout(() => {
-        robloxAliveRipple.remove();
-      }, 600);
-    }
-  });
-  console.log("Roblox Alive: Interactive click effects are now active.");
-}
-
-// --- Main execution ---
-console.log("Roblox Alive extension script has started!");
-applyRobloxAliveAnimations();
-addRobloxAliveGameStats();
-addRobloxAliveEnhancedGameStats();
-createRobloxAliveInteractiveClickEffects();
+// Start Roblox Alive
+const robloxAlive = new RobloxAliveController();
