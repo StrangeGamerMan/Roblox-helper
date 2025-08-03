@@ -1,20 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Roblox Alive",
-  "description": "Complete Roblox enhancement with animations, themes, and advanced features!",
+  "description": "Complete Roblox enhancement with animations, themes, quick play, server filters, and advanced features!",
   "version": "2.0",
   "permissions": [
     "storage",
-    "activeTab",
-    "background"
+    "activeTab"
   ],
   "host_permissions": [
     "https://www.roblox.com/*",
     "https://games.roblox.com/*",
     "https://users.roblox.com/*",
-    "https://groups.roblox.com/*",
-    "https://trades.roblox.com/*",
-    "https://avatar.roblox.com/*",
+    "https://friends.roblox.com/*",
     "https://thumbnails.roblox.com/*"
   ],
   "action": {
@@ -23,24 +20,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.roblox.com/*"],
-      "js": [
-        "utils/roblox-alive-api.js",
-        "features/roblox-alive-animations.js",
-        "features/roblox-alive-themes.js",
-        "features/roblox-alive-profiles.js",
-        "features/roblox-alive-games.js",
-        "features/roblox-alive-servers.js",
-        "features/roblox-alive-trading.js",
-        "content.js"
-      ],
-      "css": [
-        "styles/roblox-alive-main.css",
-        "styles/roblox-alive-themes.css",
-        "styles/roblox-alive-profiles.css"
-      ]
+      "js": ["content.js"],
+      "css": ["styles.css"]
     }
-  ],
-  "background": {
-    "service_worker": "background.js"
-  }
+  ]
 }
