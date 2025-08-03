@@ -1,0 +1,110 @@
+body {
+  width: 280px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #232527, #2a2d30);
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rblx-alive-header {
+  background: linear-gradient(135deg, #00a2ff, #0088cc);
+  padding: 15px;
+  text-align: center;
+  position: relative;
+}
+
+.rblx-alive-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+.rblx-alive-version {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.rblx-alive-description {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rblx-alive-description p {
+  margin: 0;
+  font-size: 13px;
+  color: #bbb;
+  line-height: 1.4;
+}
+
+.rblx-alive-settings {
+  padding: 15px;
+}
+
+.rblx-alive-setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rblx-alive-setting-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.rblx-alive-setting-item label {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.rblx-alive-setting-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #00a2ff;
+  cursor: pointer;
+}
+
+.rblx-alive-footer {
+  padding: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+#rblxAliveSaveSettings {
+  background: linear-gradient(135deg, #00a2ff, #0088cc);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+#rblxAliveSaveSettings:hover {
+  background: linear-gradient(135deg, #0088cc, #006699);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 162, 255, 0.3);
+}
+
+.rblx-alive-save-status {
+  margin-top: 8px;
+  font-size: 12px;
+  height: 16px;
+  color: #4CAF50;
+}
