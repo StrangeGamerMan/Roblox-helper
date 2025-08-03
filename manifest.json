@@ -1,18 +1,25 @@
 {
   "manifest_version": 3,
   "name": "Roblox Alive",
-  "description": "Complete Roblox enhancement with animations, themes, quick play, server filters, and advanced features!",
-  "version": "2.0",
+  "description": "Complete Roblox enhancement with advanced trading tools, live counters, server analysis, and comprehensive customization!",
+  "version": "3.0",
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "notifications",
+    "background"
   ],
   "host_permissions": [
     "https://www.roblox.com/*",
     "https://games.roblox.com/*",
     "https://users.roblox.com/*",
     "https://friends.roblox.com/*",
-    "https://thumbnails.roblox.com/*"
+    "https://thumbnails.roblox.com/*",
+    "https://trades.roblox.com/*",
+    "https://economy.roblox.com/*",
+    "https://inventory.roblox.com/*",
+    "https://avatar.roblox.com/*",
+    "https://api.rolimons.com/*"
   ],
   "action": {
     "default_popup": "popup.html"
@@ -23,5 +30,8 @@
       "js": ["content.js"],
       "css": ["styles.css"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
