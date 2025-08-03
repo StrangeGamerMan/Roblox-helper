@@ -1,15 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Roblox Alive",
+  "name": "Roblox Alive Ultimate",
   "version": "1.0",
-  "description": "Advanced Roblox extension with script-generated UI",
-  "permissions": [
-    "storage",
-    "tabs",
-    "activeTab"
-  ],
+  "description": "Roblox Alive with Ultimate features UI and dynamic controls",
+  "permissions": ["storage", "tabs", "activeTab"],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Roblox Alive"
+    "default_title": "Roblox Alive Ultimate"
   }
 }
