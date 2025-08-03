@@ -1,95 +1,98 @@
 // --- Function to find an element safely and wait for it if needed ---
-// Roblox loads things dynamically, so we need to wait for elements to appear.
 function waitForElement(selector) {
   return new Promise(resolve => {
     if (document.querySelector(selector)) {
       return resolve(document.querySelector(selector));
     }
-
     const observer = new MutationObserver(mutations => {
       if (document.querySelector(selector)) {
         resolve(document.querySelector(selector));
         observer.disconnect();
       }
     });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+    observer.observe(document.body, { childList: true, subtree: true });
   });
 }
 
-
-// --- Function to Apply Animations ---
+// --- Function to Apply Passive Animations ---
 async function applyAnimations() {
-  console.log("Roblox Alive: Applying animations...");
-
-  // The big green "Play" button on a game page
+  console.log("Roblox Alive: Applying passive animations...");
   const playButton = await waitForElement('#game-details-play-button-container button');
   if (playButton) {
     playButton.classList.add('rblx-alive-pulse');
-    console.log("Roblox Alive: Play button found and animated.");
-  } else {
-    console.log("Roblox Alive: Play button selector failed.");
   }
-
-  // You can add more selectors for animations here
-  // Example: Animate the Robux icon
   const robuxIcon = await waitForElement('a[href="/robux"]');
   if (robuxIcon) {
-      robuxIcon.classList.add('rblx-alive-glow');
+    robuxIcon.classList.add('rblx-alive-glow');
   }
 }
 
 // --- Function to Add Improved Game Statistics ---
 async function addGameStats() {
   console.log("Roblox Alive: Checking for game stats...");
-
-  // 1. Get the Game's Universe ID from the page
   const universeId = document.body.dataset.universeId;
-  if (!universeId) {
-    console.log("Roblox Alive: Not a game page or could not find Universe ID.");
-    return;
-  }
+  if (!universeId) return;
 
-  // 2. Use Roblox's API to get the vote counts
   try {
     const response = await fetch(`https://games.roblox.com/v1/games/votes?universeIds=${universeId}`);
     const data = await response.json();
     const votes = data.data[0];
-    
-    if (!votes) {
-      console.log("Roblox Alive: API did not return vote data.");
-      return;
-    }
+    if (!votes) return;
 
     const upVotes = votes.upVotes;
     const downVotes = votes.downVotes;
     const totalVotes = upVotes + downVotes;
-    
     const likeRatio = totalVotes > 0 ? ((upVotes / totalVotes) * 100).toFixed(1) : "N/A";
 
-    // 3. Create the new HTML element to display the stats
     const statsElement = document.createElement('div');
     statsElement.className = 'rblx-alive-stats-container';
     statsElement.innerHTML = `<strong>${likeRatio}%</strong><span>Like Ratio</span>`;
 
-    // 4. Find the right place on the page to add our new element
-    // We wait for the vote buttons to exist before trying to add our stats
     const voteContainer = await waitForElement('#game-voting-buttons-container');
     if (voteContainer && !document.querySelector('.rblx-alive-stats-container')) {
       voteContainer.appendChild(statsElement);
-      console.log(`Roblox Alive: Added stats! Ratio: ${likeRatio}%`);
     }
-
   } catch (error) {
     console.error("Roblox Alive: Failed to fetch or process game votes.", error);
   }
 }
 
+// --- NEW: Function to Create Interactive Click Effects ---
+function createInteractiveClickEffects() {
+  // Listen for a mousedown event anywhere on the page
+  document.addEventListener('mousedown', function(e) {
+    // Find the closest parent element that is a button or a link
+    const target = e.target.closest('button, a, [role="button"]');
+
+    if (target) {
+      // Add a class to the button to prepare it for the ripple
+      target.classList.add('rblx-alive-ripple-container');
+
+      // Create the ripple span element
+      const ripple = document.createElement('span');
+      ripple.classList.add('rblx-alive-ripple-effect');
+
+      // Calculate the size and position of the ripple
+      const rect = target.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+      // Add the ripple to the button
+      target.appendChild(ripple);
+
+      // Clean up and remove the ripple element after the animation is done
+      setTimeout(() => {
+        ripple.remove();
+      }, 600); // 600ms matches the animation duration in the CSS
+    }
+  });
+  console.log("Roblox Alive: Interactive click effects are now active.");
+}
+
 // --- Main execution ---
-// This is the starting point of our script
 console.log("Roblox Alive extension script has started!");
 applyAnimations();
 addGameStats();
+createInteractiveClickEffects(); // Activate the new click effects
