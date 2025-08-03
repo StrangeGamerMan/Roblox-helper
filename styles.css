@@ -1,8 +1,46 @@
+/* --- Animation Definitions --- */
+
 @keyframes glow {
   from {
-    filter: drop-shadow(0 0 5px #00bfff);
+    filter: drop-shadow(0 0 4px #00a2ff);
   }
   to {
-    filter: drop-shadow(0 0 20px #00bfff);
+    filter: drop-shadow(0 0 16px #00a2ff);
   }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 162, 255, 0.7);
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px 15px rgba(0, 162, 255, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 162, 255, 0);
+  }
+}
+
+/* --- Classes to Apply Animations --- */
+
+/* Add this class to any element you want to glow */
+.rblx-alive-glow {
+  animation: glow 2s infinite alternate;
+}
+
+/* Add this class to any element you want to pulse */
+.rblx-alive-pulse {
+  animation: pulse 2.5s infinite;
+  border-radius: 8px; /* Pulse looks best on rounded items */
+}
+
+/* --- Toggling Logic --- */
+
+/* When the body has the .animations-paused class, pause all our animations */
+.animations-paused .rblx-alive-glow,
+.animations-paused .rblx-alive-pulse {
+  animation-play-state: paused !important; /* Use !important to override everything */
 }
