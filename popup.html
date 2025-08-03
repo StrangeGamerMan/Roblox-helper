@@ -1,197 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Roblox Alive</title>
-  <link rel="stylesheet" href="roblox-alive-popup.css">
+  <meta charset="UTF-8" />
+  <title>Roblox Alive Plus</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="rblx-alive-header">
-    <h1>Roblox Alive</h1>
-    <span class="rblx-alive-version">v3.0</span>
+  <div id="app">
+    <header>
+      <h1>Roblox Alive Plus</h1>
+      <div id="ropro-theme-color-picker"></div>
+    </header>
+
+    <section id="most-played-section"></section>
+
+    <section id="quick-play-section"></section>
+
+    <section id="enhanced-game-stats"></section>
+
+    <section id="server-info"></section>
+
+    <section id="avatar-sandbox"></section>
+
+    <section id="friends-mutuals"></section>
+
+    <section id="trade-tools"></section>
+
+    <section id="account-value"></section>
+
+    <section id="notifications"></section>
+
+    <footer>
+      <button id="settings-btn">Settings</button>
+    </footer>
   </div>
-  
-  <div class="rblx-alive-description">
-    <p>Advanced Roblox enhancement suite with trading tools!</p>
-  </div>
-  
-  <div class="rblx-alive-settings">
-    <div class="rblx-alive-category">
-      <h3>🎨 Visual & Animations</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveAnimations">Animations</label>
-        <input type="checkbox" id="rblxAliveAnimations" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveClickEffects">Click Effects</label>
-        <input type="checkbox" id="rblxAliveClickEffects" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveProfileThemes">Profile Themes</label>
-        <input type="checkbox" id="rblxAliveProfileThemes" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveCustomThemeColor">Theme Color</label>
-        <input type="color" id="rblxAliveCustomThemeColor" value="#00a2ff">
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>🎮 Game Features</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveGameStats">Enhanced Game Stats</label>
-        <input type="checkbox" id="rblxAliveGameStats" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveQuickPlay">Quick Play</label>
-        <input type="checkbox" id="rblxAliveQuickPlay" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveLiveCounters">Live Counters</label>
-        <input type="checkbox" id="rblxAliveLiveCounters" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveLiveLikes">Live Likes/Dislikes</label>
-        <input type="checkbox" id="rblxAliveLiveLikes" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveLiveVisits">Live Visits</label>
-        <input type="checkbox" id="rblxAliveLiveVisits" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>🖥️ Server Features</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveServerFilters">Basic Server Filters</label>
-        <input type="checkbox" id="rblxAliveServerFilters" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveAdvancedServerFilters">Advanced Server Filters</label>
-        <input type="checkbox" id="rblxAliveAdvancedServerFilters" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveServerRegion">Server Region Info</label>
-        <input type="checkbox" id="rblxAliveServerRegion" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveServerUptime">Server Uptime</label>
-        <input type="checkbox" id="rblxAliveServerUptime" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>👤 Avatar Features</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveAvatarSandbox">Avatar Sandbox</label>
-        <input type="checkbox" id="rblxAliveAvatarSandbox" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveSaveOutfits">Save Outfits</label>
-        <input type="checkbox" id="rblxAliveSaveOutfits" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>👥 Social Features</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveMutualFriends">Mutual Friends</label>
-        <input type="checkbox" id="rblxAliveMutualFriends" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveReputation">Reputation System</label>
-        <input type="checkbox" id="rblxAliveReputation" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveAccountValue">Account Value Display</label>
-        <input type="checkbox" id="rblxAliveAccountValue" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>💰 Trading Features</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveTradingPanel">Advanced Trading Panel</label>
-        <input type="checkbox" id="rblxAliveTradingPanel" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveTradeCalculator">Trade Value Calculator</label>
-        <input type="checkbox" id="rblxAliveTradeCalculator" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveItemValues">Item Values & Demands</label>
-        <input type="checkbox" id="rblxAliveItemValues" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveItemDemands">Item Demand Rating</label>
-        <input type="checkbox" id="rblxAliveItemDemands" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveRolimonsIntegration">Rolimons Integration</label>
-        <input type="checkbox" id="rblxAliveRolimonsIntegration" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveTradeSearch">Trade Search</label>
-        <input type="checkbox" id="rblxAliveTradeSearch" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>🔒 Security Features</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveTradeNotifier">Trade Notifications</label>
-        <input type="checkbox" id="rblxAliveTradeNotifier" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveAutoDecline">Auto-Decline Bad Trades</label>
-        <input type="checkbox" id="rblxAliveAutoDecline" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveDeclineThreshold">Loss Threshold (%)</label>
-        <input type="number" id="rblxAliveDeclineThreshold" min="10" max="90" value="50">
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveAccountSecurity">Account Security</label>
-        <input type="checkbox" id="rblxAliveAccountSecurity" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveTradeProtection">Trade Protection</label>
-        <input type="checkbox" id="rblxAliveTradeProtection" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>📊 Tracking & History</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAlivePlaytimeTracking">Playtime Tracking</label>
-        <input type="checkbox" id="rblxAlivePlaytimeTracking" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveMostPlayed">Most Played Games</label>
-        <input type="checkbox" id="rblxAliveMostPlayed" checked>
-      </div>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveItemHistory">Item Owner History</label>
-        <input type="checkbox" id="rblxAliveItemHistory" checked>
-      </div>
-    </div>
-
-    <div class="rblx-alive-category">
-      <h3>🔍 Search & Navigation</h3>
-      <div class="rblx-alive-setting-item">
-        <label for="rblxAliveQuickSearch">Quick Search</label>
-        <input type="checkbox" id="rblxAliveQuickSearch" checked>
-      </div>
-    </div>
-  </div>
-  
-  <div class="rblx-alive-footer">
-    <button id="rblxAliveSaveSettings">Save All Settings</button>
-    <div id="rblxAliveSaveStatus" class="rblx-alive-save-status"></div>
-    <div class="rblx-alive-stats">
-      <small>Features Active: <span id="rblx-alive-active-count">0</span></small>
-    </div>
-  </div>
-  
-  <script src="roblox-alive-popup.js"></script>
+  <script src="popup.js"></script>
 </body>
 </html>
