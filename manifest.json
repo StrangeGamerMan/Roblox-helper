@@ -1,37 +1,41 @@
 {
   "manifest_version": 3,
-  "name": "Roblox Alive",
-  "description": "Complete Roblox enhancement with advanced trading tools, live counters, server analysis, and comprehensive customization!",
-  "version": "3.0",
+  "name": "Roblox Alive Plus",
+  "version": "1.0",
+  "description": "Ultimate Roblox Alive Extension - all features unlocked",
   "permissions": [
     "storage",
-    "activeTab",
-    "notifications",
-    "background"
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.roblox.com/*",
+    "*://*.rolimons.com/*"
   ],
   "host_permissions": [
-    "https://www.roblox.com/*",
-    "https://games.roblox.com/*",
-    "https://users.roblox.com/*",
-    "https://friends.roblox.com/*",
-    "https://thumbnails.roblox.com/*",
-    "https://trades.roblox.com/*",
-    "https://economy.roblox.com/*",
-    "https://inventory.roblox.com/*",
-    "https://avatar.roblox.com/*",
-    "https://api.rolimons.com/*"
-  ],
-  "action": {
-    "default_popup": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://www.roblox.com/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"]
-    }
+    "*://*.roblox.com/*",
+    "*://*.rolimons.com/*"
   ],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.roblox.com/*"],
+      "js": ["content-scripts/friends-enhancements.js", "content-scripts/avatar-sandbox.js", "content-scripts/trade-enhancements.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
 }
