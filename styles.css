@@ -1,145 +1,68 @@
-/* --- Roblox Alive - Core Animation Classes --- */
+/* Roblox Alive Core Feature Styles */
 
-/* Roblox Alive - Pulse animation for play button */
-.rblx-alive-pulse {
-  animation: rblx-alive-pulse-animation 2s infinite !important;
-}
-
-@keyframes rblx-alive-pulse-animation {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Roblox Alive - Glow animation for robux icon */
-.rblx-alive-glow {
-  animation: rblx-alive-glow-animation 3s ease-in-out infinite alternate !important;
-}
-
-@keyframes rblx-alive-glow-animation {
-  from { box-shadow: 0 0 5px rgba(0, 162, 255, 0.5); }
-  to { box-shadow: 0 0 20px rgba(0, 162, 255, 0.8); }
-}
-
-/* Roblox Alive - Floating animation for badges */
-.rblx-alive-float {
-  animation: rblx-alive-float-animation 3s ease-in-out infinite !important;
-}
-
-@keyframes rblx-alive-float-animation {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-}
-
-/* --- Roblox Alive - Interactive Ripple Click Effect --- */
-
-.rblx-alive-ripple-container {
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.rblx-alive-ripple-effect {
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.4);
-  transform: scale(0);
-  animation: rblx-alive-ripple-animation 0.6s linear;
-  pointer-events: none;
-}
-
-@keyframes rblx-alive-ripple-animation {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-/* --- Roblox Alive - Game Statistics Styling --- */
-
-.rblx-alive-stats-container {
-  background: rgba(0, 162, 255, 0.1);
+.rblx-alive-live-counters {
+  background: rgba(0, 162, 255, 0.08);
   border: 1px solid rgba(0, 162, 255, 0.3);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 8px 12px;
-  margin: 8px 0;
-  display: inline-block;
-}
-
-.rblx-alive-stats-container strong {
-  color: #00a2ff;
-  font-size: 14px;
-}
-
-.rblx-alive-stats-container span {
-  color: #666;
-  font-size: 12px;
-  margin-left: 5px;
-}
-
-/* Roblox Alive - Enhanced stats styling */
-.rblx-alive-enhanced-stats {
+  margin-top: 12px;
   display: flex;
   gap: 15px;
-  margin: 15px 0;
-  padding: 15px;
-  background: linear-gradient(135deg, rgba(0, 162, 255, 0.1), rgba(0, 162, 255, 0.05));
-  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--rblx-alive-theme-color, #00a2ff);
+  justify-content: space-around;
+}
+
+.rblx-alive-server-info {
+  margin-top: 15px;
+  background: rgba(0, 162, 255, 0.06);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 162, 255, 0.2);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--rblx-alive-theme-color, #00a2ff);
+}
+
+.rblx-alive-server-filters {
+  margin-top: 20px;
+  background: rgba(0, 162, 255, 0.05);
+  border: 1px solid rgba(0, 162, 255, 0.15);
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 13px;
+  display: flex;
+  gap: 20px;
+  color: var(--rblx-alive-theme-color, #00a2ff);
+}
+
+.rblx-alive-server-filters label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  user-select: none;
+}
+
+.rblx-alive-server-filters select {
+  margin-top: 5px;
+  border-radius: 6px;
   border: 1px solid rgba(0, 162, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 162, 255, 0.1);
+  padding: 4px 6px;
+  background: white;
+  cursor: pointer;
+  color: #333;
 }
 
-.rblx-alive-stat-item {
-  text-align: center;
-  flex: 1;
-  padding: 5px;
+.rblx-alive-theme-color-picker {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  vertical-align: middle;
+  box-shadow: 0 0 8px var(--rblx-alive-theme-color, #00a2ff);
+  transition: box-shadow 0.3s ease;
 }
 
-.rblx-alive-stat-value {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-  color: #00a2ff;
-  margin-bottom: 4px;
-}
-
-.rblx-alive-stat-label {
-  display: block;
-  font-size: 11px;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* --- Roblox Alive - Additional Enhancements --- */
-
-/* Roblox Alive - Smooth hover effects for game thumbnails */
-.game-card-thumb {
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-.game-card-thumb:hover {
-  transform: scale(1.05) !important;
-  box-shadow: 0 8px 25px rgba(0, 162, 255, 0.3) !important;
-}
-
-/* Roblox Alive - Loading shimmer effect */
-@keyframes rblx-alive-shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
-}
-
-.rblx-alive-loading {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 1000px 100%;
-  animation: rblx-alive-shimmer 2s infinite;
-}
-
-/* Roblox Alive - Smooth transitions for buttons */
-button, .btn {
-  transition: all 0.3s ease !important;
-}
-
-button:hover, .btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+.rblx-alive-theme-color-picker:hover {
+  box-shadow: 0 0 15px var(--rblx-alive-theme-color, #00a2ff);
 }
