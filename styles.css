@@ -1,37 +1,25 @@
-/* --- Animation Definitions --- */
-@keyframes glow {
-  from { filter: drop-shadow(0 0 4px #00a2ff); }
-  to { filter: drop-shadow(0 0 16px #00a2ff); }
+/* --- NEW: Interactive Ripple Click Effect --- */
+
+/* This makes sure the ripple stays inside the button */
+.rblx-alive-ripple-container {
+  position: relative !important; /* Must be relative to position the ripple inside */
+  overflow: hidden !important;   /* Hides the parts of the ripple that go outside */
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  70% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+/* This is the style for the ripple circle itself */
+.rblx-alive-ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4); /* A semi-transparent white */
+  transform: scale(0);
+  animation: rblx-alive-ripple-animation 0.6s linear;
+  pointer-events: none; /* The ripple itself should not be clickable */
 }
 
-/* --- Classes to Apply Animations --- */
-.rblx-alive-glow {
-  animation: glow 2s infinite alternate;
-}
-.rblx-alive-pulse {
-  animation: pulse 1.5s infinite;
-}
-
-/* --- Style for our new Game Stats Feature --- */
-.rblx-alive-stats-container {
-  display: flex;
-  align-items: center;
-  background-color: #2c2c2c; /* Dark background */
-  padding: 5px 12px;
-  border-radius: 8px;
-  margin-left: 15px; /* Space it out from the dislike button */
-  font-family: "Gotham", sans-serif;
-  color: #fff;
-}
-
-.rblx-alive-stats-container strong {
-  color: #44d600; /* Bright green for the percentage */
-  font-size: 1.2rem;
-  margin-right: 5px;
+/* This is the animation that makes the ripple expand and fade */
+@keyframes rblx-alive-ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
