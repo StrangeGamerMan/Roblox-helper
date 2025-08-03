@@ -1,201 +1,188 @@
-// Roblox Alive - Game Features
-class RobloxAliveGames {
+// roblox-alive-popup.js - Roblox Alive Core Features v1
+class RobloxAliveCore {
   constructor(settings) {
     this.settings = settings;
-    this.api = window.RobloxAliveAPI;
+    this.api = window.RobloxAliveAPI; // Your existing API handler
+    this.themeColor = settings.themeColor || '#00a2ff'; // default RoPro blue
   }
 
-  async addMostPlayedSection() {
-    console.log("Roblox Alive: Adding most played section to homepage...");
-    
-    try {
-      // Get user's play history from storage
-      const playHistory = await this.getPlayHistory();
-      const mostPlayed = this.analyzeMostPlayed(playHistory);
-
-      if (mostPlayed.length === 0) return;
-
-      const homepageContainer = await this.waitForElement('.container-main');
-      if (!homepageContainer) return;
-
-      const mostPlayedSection = this.createMostPlayedSection(mostPlayed);
-      homepageContainer.insertBefore(mostPlayedSection, homepageContainer.firstChild);
-
-      console.log("Roblox Alive: Most played section added successfully!");
-    } catch (error) {
-      console.error("Roblox Alive: Error adding most played section:", error);
-    }
+  async init() {
+    await this.addLiveCounters();
+    await this.addServerInfoSection();
+    this.addThemeColorCustomizer();
+    this.addServerFilters();
+    console.log("Roblox Alive: Core features loaded!");
   }
 
-  async addQuickPlayFeatures() {
-    console.log("Roblox Alive: Adding quick play features...");
-    
+  // --- Live Experience Counters (likes, dislikes, favorites, visits, players) ---
+  async addLiveCounters() {
     try {
-      const gameDetailsPlay = await this.waitForElement('#game-details-play-button-container');
-      if (!gameDetailsPlay) return;
+      const universeId = document.body.dataset.universeId;
+      if (!universeId) return;
 
-      // Add quick play button with server selection
-      const quickPlayContainer = document.createElement('div');
-      quickPlayContainer.className = 'rblx-alive-quick-play-container';
-      quickPlayContainer.innerHTML = `
-        <div class="rblx-alive-quick-play-options">
-          <button class="rblx-alive-quick-play-btn" data-action="random">Join Random Server</button>
-          <button class="rblx-alive-quick-play-btn" data-action="best">Join Best Server</button>
-          <button class="rblx-alive-quick-play-btn" data-action="recent">Rejoin Recent</button>
-        </div>
-      `;
+      const gameDetails = await this.waitForElement('.game-details-container');
+      if (!gameDetails || document.querySelector('.rblx-alive-live-counters')) return;
 
-      gameDetailsPlay.appendChild(quickPlayContainer);
-
-      // Add event listeners
-      quickPlayContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('rblx-alive-quick-play-btn')) {
-          this.handleQuickPlay(e.target.dataset.action);
-        }
-      });
-
-      console.log("Roblox Alive: Quick play features added!");
-    } catch (error) {
-      console.error("Roblox Alive: Error adding quick play features:", error);
-    }
-  }
-
-  async addEnhancedGameStats() {
-    console.log("Roblox Alive: Adding enhanced game statistics...");
-    
-    const universeId = document.body.dataset.universeId;
-    if (!universeId) return;
-
-    try {
-      const [gameInfo, voteInfo] = await Promise.all([
+      const [gameInfo, voteInfo, statsInfo] = await Promise.all([
         this.api.getGameInfo(universeId),
-        this.api.getGameVotes(universeId)
+        this.api.getGameVotes(universeId),
+        this.api.getGameStats(universeId)
       ]);
 
-      if (!gameInfo || !voteInfo) return;
+      if (!gameInfo || !voteInfo || !statsInfo) return;
 
-      const statsContainer = this.createEnhancedStatsContainer(gameInfo, voteInfo);
-      const gameDetails = await this.waitForElement('.game-details-container');
-      
-      if (gameDetails && !document.querySelector('.rblx-alive-enhanced-stats')) {
-        gameDetails.appendChild(statsContainer);
-        console.log("Roblox Alive: Enhanced game stats added!");
-      }
-    } catch (error) {
-      console.error("Roblox Alive: Error adding enhanced game stats:", error);
+      const liveCountersEl = document.createElement('div');
+      liveCountersEl.className = 'rblx-alive-live-counters';
+      liveCountersEl.innerHTML = `
+        <div><strong>Likes:</strong> ${voteInfo.upVotes.toLocaleString()}</div>
+        <div><strong>Dislikes:</strong> ${voteInfo.downVotes.toLocaleString()}</div>
+        <div><strong>Favorites:</strong> ${gameInfo.favoriteCount.toLocaleString()}</div>
+        <div><strong>Visits:</strong> ${gameInfo.visits.toLocaleString()}</div>
+        <div><strong>Playing Now:</strong> ${gameInfo.playing.toLocaleString()}</div>
+      `;
+
+      gameDetails.appendChild(liveCountersEl);
+    } catch (e) {
+      console.error('Roblox Alive: Failed to add live counters', e);
     }
   }
 
-  createEnhancedStatsContainer(gameInfo, voteInfo) {
-    const upVotes = voteInfo.upVotes;
-    const downVotes = voteInfo.downVotes;
-    const totalVotes = upVotes + downVotes;
-    const likeRatio = totalVotes > 0 ? ((upVotes / totalVotes) * 100).toFixed(1) : "N/A";
-    
-    const container = document.createElement('div');
-    container.className = 'rblx-alive-enhanced-stats';
-    container.innerHTML = `
-      <div class="rblx-alive-stat-item">
-        <span class="rblx-alive-stat-value">${likeRatio}%</span>
-        <span class="rblx-alive-stat-label">Like Ratio</span>
-      </div>
-      <div class="rblx-alive-stat-item">
-        <span class="rblx-alive-stat-value">${gameInfo.playing.toLocaleString()}</span>
-        <span class="rblx-alive-stat-label">Playing Now</span>
-      </div>
-      <div class="rblx-alive-stat-item">
-        <span class="rblx-alive-stat-value">${gameInfo.visits.toLocaleString()}</span>
-        <span class="rblx-alive-stat-label">Total Visits</span>
-      </div>
-      <div class="rblx-alive-stat-item">
-        <span class="rblx-alive-stat-value">${gameInfo.maxPlayers}</span>
-        <span class="rblx-alive-stat-label">Max Players</span>
-      </div>
+  // --- Server Region, Version, Uptime Info ---
+  async addServerInfoSection() {
+    try {
+      // Assume you have an API endpoint or data to get this, fake example:
+      const universeId = document.body.dataset.universeId;
+      if (!universeId) return;
+
+      const gameDetails = await this.waitForElement('.game-details-container');
+      if (!gameDetails || document.querySelector('.rblx-alive-server-info')) return;
+
+      // Fetch server info (region, version, uptime) from your API or Roblox endpoint
+      const serverInfo = await this.api.getServerInfo(universeId);
+      if (!serverInfo) return;
+
+      const serverInfoEl = document.createElement('div');
+      serverInfoEl.className = 'rblx-alive-server-info';
+      serverInfoEl.innerHTML = `
+        <div><strong>Server Region:</strong> ${serverInfo.region || 'Unknown'}</div>
+        <div><strong>Version:</strong> ${serverInfo.version || 'N/A'}</div>
+        <div><strong>Uptime:</strong> ${this.formatUptime(serverInfo.uptimeSeconds)}</div>
+      `;
+
+      gameDetails.appendChild(serverInfoEl);
+    } catch (e) {
+      console.error('Roblox Alive: Failed to add server info', e);
+    }
+  }
+
+  formatUptime(seconds) {
+    if (!seconds) return 'N/A';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h}h ${m}m ${s}s`;
+  }
+
+  // --- Server Filters (region, connection, uptime) UI ---
+  addServerFilters() {
+    // Just example UI here, replace or expand with real filter logic and UI updates
+    const container = document.querySelector('.game-details-container');
+    if (!container || document.querySelector('.rblx-alive-server-filters')) return;
+
+    const filtersEl = document.createElement('div');
+    filtersEl.className = 'rblx-alive-server-filters';
+    filtersEl.innerHTML = `
+      <label>Filter by Region:
+        <select id="rblx-alive-filter-region">
+          <option value="">All</option>
+          <option value="US">US</option>
+          <option value="EU">EU</option>
+          <option value="ASIA">Asia</option>
+        </select>
+      </label>
+      <label>Filter by Connection:
+        <select id="rblx-alive-filter-connection">
+          <option value="">All</option>
+          <option value="Good">Good</option>
+          <option value="Average">Average</option>
+          <option value="Poor">Poor</option>
+        </select>
+      </label>
+      <label>Filter by Uptime:
+        <select id="rblx-alive-filter-uptime">
+          <option value="">All</option>
+          <option value="under1h">Under 1h</option>
+          <option value="1-3h">1-3h</option>
+          <option value="3+h">3+h</option>
+        </select>
+      </label>
     `;
-    
-    return container;
+
+    container.appendChild(filtersEl);
+
+    // TODO: Add event listeners for filters & update server list accordingly
   }
 
-  async getPlayHistory() {
-    return new Promise((resolve) => {
-      chrome.storage.local.get(['rblxAlivePlayHistory'], (result) => {
-        resolve(result.rblxAlivePlayHistory || []);
-      });
+  // --- RoPro Theme Color Customization ---
+  addThemeColorCustomizer() {
+    if (document.querySelector('.rblx-alive-theme-color-picker')) return;
+
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    const colorPicker = document.createElement('input');
+    colorPicker.type = 'color';
+    colorPicker.className = 'rblx-alive-theme-color-picker';
+    colorPicker.value = this.themeColor;
+    colorPicker.title = 'Customize RoPro Theme Color';
+
+    colorPicker.style.marginLeft = '10px';
+    colorPicker.style.cursor = 'pointer';
+
+    colorPicker.addEventListener('input', (e) => {
+      this.themeColor = e.target.value;
+      this.applyThemeColor();
+      this.saveThemeColor();
     });
+
+    header.appendChild(colorPicker);
+    this.applyThemeColor();
   }
 
-  analyzeMostPlayed(playHistory) {
-    const gameStats = {};
-    
-    playHistory.forEach(entry => {
-      if (!gameStats[entry.gameId]) {
-        gameStats[entry.gameId] = {
-          gameId: entry.gameId,
-          gameName: entry.gameName,
-          playCount: 0,
-          totalTime: 0
-        };
-      }
-      gameStats[entry.gameId].playCount++;
-      gameStats[entry.gameId].totalTime += entry.duration || 0;
-    });
-
-    return Object.values(gameStats)
-      .sort((a, b) => b.playCount - a.playCount)
-      .slice(0, 6);
+  applyThemeColor() {
+    document.documentElement.style.setProperty('--rblx-alive-theme-color', this.themeColor);
   }
 
-  createMostPlayedSection(mostPlayed) {
-    const section = document.createElement('div');
-    section.className = 'rblx-alive-most-played-section';
-    section.innerHTML = `
-      <div class="rblx-alive-section-header">
-        <h2>Your Most Played Games</h2>
-        <span class="rblx-alive-section-subtitle">Based on your play history</span>
-      </div>
-      <div class="rblx-alive-most-played-grid">
-        ${mostPlayed.map(game => `
-          <div class="rblx-alive-game-card" data-game-id="${game.gameId}">
-            <div class="rblx-alive-game-thumbnail">
-              <img src="https://www.roblox.com/asset-thumbnail/image?assetId=${game.gameId}&width=150&height=150&format=png" alt="${game.gameName}">
-            </div>
-            <div class="rblx-alive-game-info">
-              <h4>${game.gameName}</h4>
-              <span class="rblx-alive-play-count">${game.playCount} plays</span>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-    
-    return section;
-  }
-
-  async handleQuickPlay(action) {
-    console.log(`Roblox Alive: Quick play action: ${action}`);
-    // Implementation for different quick play actions
-    // This would handle joining servers based on the selected action
+  saveThemeColor() {
+    chrome.storage.local.set({ rblxAliveThemeColor: this.themeColor });
   }
 
   async waitForElement(selector, timeout = 10000) {
     return new Promise((resolve, reject) => {
-      if (document.querySelector(selector)) {
-        return resolve(document.querySelector(selector));
-      }
-      
-      const observer = new MutationObserver(mutations => {
+      if (document.querySelector(selector)) return resolve(document.querySelector(selector));
+      const observer = new MutationObserver(() => {
         if (document.querySelector(selector)) {
-          resolve(document.querySelector(selector));
           observer.disconnect();
+          resolve(document.querySelector(selector));
         }
       });
-      
       observer.observe(document.body, { childList: true, subtree: true });
-      
       setTimeout(() => {
         observer.disconnect();
-        reject(new Error(`Element ${selector} not found within ${timeout}ms`));
+        reject(new Error(`Timeout waiting for ${selector}`));
       }, timeout);
     });
   }
 }
+
+// Initialize the core after loading settings
+(async () => {
+  const settings = await new Promise(resolve => {
+    chrome.storage.local.get(['rblxAliveThemeColor'], (result) => {
+      resolve({ themeColor: result.rblxAliveThemeColor || '#00a2ff' });
+    });
+  });
+
+  const robloxAlive = new RobloxAliveCore(settings);
+  robloxAlive.init();
+})();
