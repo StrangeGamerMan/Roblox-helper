@@ -2,17 +2,20 @@
   "manifest_version": 3,
   "name": "Roblox Alive",
   "description": "Make Roblox alive with animations and customizations!",
-  "version": "1.0",
-  "permissions": ["storage"], 
-  "host_permissions": ["https://www.roblox.com/*"],
-
+  "version": "1.1",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.roblox.com/*",
+    "https://games.roblox.com/*"
+  ],
   "action": {
     "default_popup": "popup.html"
   },
-
   "content_scripts": [
     {
-      "matches": ["https://www.roblox.com/*"],
+      "matches": ["https://www.roblox.com/games/*"],
       "js": ["content.js"],
       "css": ["styles.css"]
     }
