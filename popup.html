@@ -2,24 +2,40 @@
 <html>
 <head>
   <title>Roblox Alive</title>
-  <style>
-    body {
-      width: 250px;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 10px;
-      background-color: #232527;
-      color: #fff;
-    }
-    h1 {
-      font-size: 18px;
-      color: #00a2ff;
-    }
-  </style>
+  <link rel="stylesheet" href="roblox-alive-popup.css">
 </head>
 <body>
-  <h1>Roblox Alive</h1>
-  <p>Animations and new game stats have been added to the page!</p>
-  <p>More settings will be here soon.</p>
+  <div class="rblx-alive-header">
+    <h1>Roblox Alive</h1>
+    <span class="rblx-alive-version">v1.2</span>
+  </div>
+  
+  <div class="rblx-alive-description">
+    <p>Enhance your Roblox experience with animations and customizations!</p>
+  </div>
+  
+  <div class="rblx-alive-settings">
+    <div class="rblx-alive-setting-item">
+      <label for="rblxAliveAnimations">Enable Animations</label>
+      <input type="checkbox" id="rblxAliveAnimations" checked>
+    </div>
+    
+    <div class="rblx-alive-setting-item">
+      <label for="rblxAliveGameStats">Enhanced Game Stats</label>
+      <input type="checkbox" id="rblxAliveGameStats" checked>
+    </div>
+    
+    <div class="rblx-alive-setting-item">
+      <label for="rblxAliveClickEffects">Click Effects</label>
+      <input type="checkbox" id="rblxAliveClickEffects" checked>
+    </div>
+  </div>
+  
+  <div class="rblx-alive-footer">
+    <button id="rblxAliveSaveSettings">Save Settings</button>
+    <div id="rblxAliveSaveStatus" class="rblx-alive-save-status"></div>
+  </div>
+  
+  <script src="roblox-alive-popup.js"></script>
 </body>
 </html>
