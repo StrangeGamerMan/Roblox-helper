@@ -1,41 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Roblox Alive Plus",
+  "name": "Roblox Alive",
   "version": "1.0",
-  "description": "Ultimate Roblox Alive Extension - all features unlocked",
+  "description": "Advanced Roblox extension with script-generated UI",
   "permissions": [
     "storage",
     "tabs",
-    "webRequest",
-    "webRequestBlocking",
-    "*://*.roblox.com/*",
-    "*://*.rolimons.com/*"
+    "activeTab"
   ],
-  "host_permissions": [
-    "*://*.roblox.com/*",
-    "*://*.rolimons.com/*"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "action": {
     "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-    }
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://*.roblox.com/*"],
-      "js": ["content-scripts/friends-enhancements.js", "content-scripts/avatar-sandbox.js", "content-scripts/trade-enhancements.js"],
-      "run_at": "document_idle"
-    }
-  ],
-  "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "default_title": "Roblox Alive"
   }
 }
