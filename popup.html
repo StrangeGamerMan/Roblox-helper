@@ -2,38 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Roblox Alive Plus</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Roblox Alive</title>
+  <style>
+    /* Basic styling to reset margin and set a Roblox-style font */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #181818;
+      color: white;
+      min-width: 300px;
+      min-height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 15px;
+      user-select: none;
+    }
+    #app {
+      width: 100%;
+    }
+    .header {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .btn {
+      cursor: pointer;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 5px;
+      font-size: 1em;
+      user-select: none;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    .counter {
+      font-size: 1.2em;
+      margin: 8px 0;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <header>
-      <h1>Roblox Alive Plus</h1>
-      <div id="ropro-theme-color-picker"></div>
-    </header>
-
-    <section id="most-played-section"></section>
-
-    <section id="quick-play-section"></section>
-
-    <section id="enhanced-game-stats"></section>
-
-    <section id="server-info"></section>
-
-    <section id="avatar-sandbox"></section>
-
-    <section id="friends-mutuals"></section>
-
-    <section id="trade-tools"></section>
-
-    <section id="account-value"></section>
-
-    <section id="notifications"></section>
-
-    <footer>
-      <button id="settings-btn">Settings</button>
-    </footer>
-  </div>
+  <div id="app"></div>
   <script src="popup.js"></script>
 </body>
 </html>
