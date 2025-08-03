@@ -3,7 +3,7 @@
   "name": "Roblox Alive",
   "description": "Make Roblox alive with animations and customizations!",
   "version": "1.0",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["storage"], 
   "host_permissions": ["https://www.roblox.com/*"],
   "action": {
     "default_popup": "popup.html",
@@ -18,6 +18,12 @@
       "matches": ["https://www.roblox.com/*"],
       "js": ["content.js"],
       "css": ["styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icon128.png"],
+      "matches": ["https://www.roblox.com/*"]
     }
   ]
 }
