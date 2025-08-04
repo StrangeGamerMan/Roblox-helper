@@ -10,7 +10,13 @@ chrome.runtime.onInstalled.addListener(() => {
     customTheme: 'dark',
     notifications: true,
     autoRefresh: false,
-    refreshInterval: 30
+    refreshInterval: 30,
+    regionPref: 'auto',
+    toolbarPosition: 'top-right',
+    compactMode: false,
+    friendNotifications: true,
+    gameNotifications: true,
+    dataCollection: false
   });
 });
 
@@ -29,7 +35,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'showNotification') {
     chrome.notifications.create({
       type: 'basic',
-      iconUrl: 'icon48.png',
       title: 'Roblox Pro',
       message: request.message
     });
@@ -72,3 +77,58 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     refreshIntervals.delete(tabId);
   }
 });
+
+// Friend activity tracking
+let friendActivityInterval;
+
+chrome.storage.sync.get(['friendNotifications'], (data) => {
+  if (data.friendNotifications) {
+    startFriendTracking();
+  }
+});
+
+function startFriendTracking() {
+  if (friendActivityInterval) return;
+  
+  friendActivityInterval = setInterval(async () => {
+    // Check friend activity (mock implementation)
+    const friends = await checkFriendActivity();
+    friends.forEach(friend => {
+      if (friend.justOnline) {
+        chrome.notifications.create({
+          type: 'basic',
+          title: 'Friend Online',
+          message: `${friend.name} just came online!`
+        });
+      }
+    });
+  }, 60000); // Check every minute
+}
+
+async function checkFriendActivity() {
+  // Mock friend activity data
+  return [
+    { name: 'Player123', justOnline: Math.random() > 0.9 },
+    { name: 'GameMaster456', justOnline: Math.random() > 0.95 }
+  ];
+}
+
+// Game update notifications
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (changes.favoriteGames && namespace === 'sync') {
+    checkGameUpdates(changes.favoriteGames.newValue || []);
+  }
+});
+
+function checkGameUpdates(favoriteGames) {
+  // Mock game update checking
+  favoriteGames.forEach(game => {
+    if (Math.random() > 0.98) { // 2% chance of update notification
+      chrome.notifications.create({
+        type: 'basic',
+        title: 'Game Updated',
+        message: `${game.name} has been updated!`
+      });
+    }
+  });
+}
