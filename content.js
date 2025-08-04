@@ -19,7 +19,7 @@ class RobloxPro {
   async loadSettings() {
     this.settings = await RobloxUtils.getStorageData([
       'autoJoinEnabled', 'serverHopEnabled', 'playerCountThreshold',
-      'antiAfkEnabled', 'customTheme', 'notifications'
+      'antiAfkEnabled', 'customTheme', 'notifications', 'toolbarPosition', 'compactMode'
     ]);
   }
 
@@ -168,6 +168,24 @@ class RobloxPro {
       }
     `;
     document.head.appendChild(style);
+    
+    // Apply theme and position
+    this.applyTheme();
+    this.applyPosition();
+  }
+
+  applyTheme() {
+    document.body.classList.add(`roblox-pro-theme-${this.settings.customTheme || 'dark'}`);
+  }
+
+  applyPosition() {
+    const position = this.settings.toolbarPosition || 'top-right';
+    if (this.toolbar) {
+      this.toolbar.className = `roblox-pro-toolbar ${position}`;
+      if (this.settings.compactMode) {
+        this.toolbar.classList.add('compact');
+      }
+    }
   }
 
   createUI() {
@@ -182,6 +200,7 @@ class RobloxPro {
     document.body.appendChild(this.toolbar);
     this.createButtons();
     this.updateInfo();
+    this.applyPosition();
   }
 
   createButtons() {
@@ -207,6 +226,11 @@ class RobloxPro {
       this.showGameStats();
     });
     
+    // Server List Button
+    const serverListBtn = RobloxUtils.createButton('🌐 Servers', '', () => {
+      this.showServerList();
+    });
+    
     // Settings Button
     const settingsBtn = RobloxUtils.createButton('⚙️ Settings', '', () => {
       this.showSettings();
@@ -221,6 +245,7 @@ class RobloxPro {
     buttonsContainer.appendChild(autoJoinBtn);
     buttonsContainer.appendChild(playerTrackerBtn);
     buttonsContainer.appendChild(gameStatsBtn);
+    buttonsContainer.appendChild(serverListBtn);
     buttonsContainer.appendChild(antiAfkBtn);
     buttonsContainer.appendChild(settingsBtn);
   }
@@ -272,7 +297,9 @@ class RobloxPro {
         .sort((a, b) => Math.abs(a.playing - this.settings.playerCountThreshold) - Math.abs(b.playing - this.settings.playerCountThreshold))[0];
 
       if (bestServer) {
-        Roblox.GameLauncher.joinGameInstance(gameId, bestServer.id);
+        if (typeof Roblox !== 'undefined' && Roblox.GameLauncher) {
+          Roblox.GameLauncher.joinGameInstance(gameId, bestServer.id);
+        }
         RobloxUtils.showNotification(`Joining server with ${bestServer.playing} players`, 'success');
       } else {
         RobloxUtils.showNotification('No suitable servers found', 'error');
@@ -283,12 +310,11 @@ class RobloxPro {
   }
 
   async getGameServers(gameId) {
-    // This would need to be implemented with proper Roblox API calls
-    // For demo purposes, returning mock data
+    // Mock implementation - in real version would call Roblox API
     return [
-      { id: '123', playing: 15, maxPlayers: 20 },
-      { id: '456', playing: 8, maxPlayers: 20 },
-      { id: '789', playing: 18, maxPlayers: 20 }
+      { id: '123', playing: 15, maxPlayers: 20, ping: 45 },
+      { id: '456', playing: 8, maxPlayers: 20, ping: 67 },
+      { id: '789', playing: 18, maxPlayers: 20, ping: 23 }
     ];
   }
 
@@ -307,6 +333,11 @@ class RobloxPro {
           <div><strong>Server Region</strong></div>
           <div id="server-region">Unknown</div>
         </div>
+      </div>
+      <div class="roblox-pro-game-card">
+        <h4>Player Actions</h4>
+        <button class="roblox-pro-btn" onclick="robloxPro.refreshPlayerList()">🔄 Refresh List</button>
+        <button class="roblox-pro-btn success" onclick="robloxPro.exportPlayerList()">📋 Export List</button>
       </div>
     `;
     
@@ -338,8 +369,9 @@ class RobloxPro {
       </div>
       <div class="roblox-pro-game-card">
         <h4>Quick Actions</h4>
-        <button class="roblox-pro-btn" onclick="this.copyGameLink()">📋 Copy Game Link</button>
-        <button class="roblox-pro-btn success" onclick="this.favoriteGame()">⭐ Add to Favorites</button>
+        <button class="roblox-pro-btn" onclick="robloxPro.copyGameLink()">📋 Copy Game Link</button>
+        <button class="roblox-pro-btn success" onclick="robloxPro.favoriteGame()">⭐ Add to Favorites</button>
+        <button class="roblox-pro-btn" onclick="robloxPro.shareGame()">🔗 Share Game</button>
       </div>
     `;
     
@@ -347,6 +379,25 @@ class RobloxPro {
     document.body.appendChild(panel);
     
     this.loadGameStats();
+  }
+
+  showServerList() {
+    const content = `
+      <div class="roblox-pro-server-list" id="server-list">
+        <div class="roblox-pro-loading">Loading servers...</div>
+      </div>
+      <div class="roblox-pro-game-card">
+        <h4>Server Options</h4>
+        <button class="roblox-pro-btn" onclick="robloxPro.refreshServerList()">🔄 Refresh</button>
+        <button class="roblox-pro-btn success" onclick="robloxPro.joinBestServer()">⚡ Join Best</button>
+        <button class="roblox-pro-btn" onclick="robloxPro.joinRandomServer()">🎲 Join Random</button>
+      </div>
+    `;
+    
+    const panel = RobloxUtils.createPanel('🌐 Server Browser', content);
+    document.body.appendChild(panel);
+    
+    this.loadServerList();
   }
 
   showSettings() {
@@ -377,12 +428,15 @@ class RobloxPro {
           <option value="dark" ${this.settings.customTheme === 'dark' ? 'selected' : ''}>Dark</option>
           <option value="light" ${this.settings.customTheme === 'light' ? 'selected' : ''}>Light</option>
           <option value="blue" ${this.settings.customTheme === 'blue' ? 'selected' : ''}>Blue</option>
+          <option value="purple" ${this.settings.customTheme === 'purple' ? 'selected' : ''}>Purple</option>
+          <option value="green" ${this.settings.customTheme === 'green' ? 'selected' : ''}>Green</option>
         </select>
       </div>
       <button class="roblox-pro-btn success" onclick="robloxPro.saveSettings()">💾 Save Settings</button>
+      <button class="roblox-pro-btn" onclick="robloxPro.openAdvancedSettings()">⚙️ Advanced Settings</button>
     `;
     
-    const panel = RobloxUtils.createPanel('⚙️ Settings', content);
+    const panel = RobloxUtils.createPanel('⚙️ Quick Settings', content);
     document.body.appendChild(panel);
   }
 
@@ -397,11 +451,19 @@ class RobloxPro {
     };
     
     await RobloxUtils.setStorageData(newSettings);
-    this.settings = newSettings;
+    this.settings = { ...this.settings, ...newSettings };
     RobloxUtils.showNotification('Settings saved!', 'success');
+    
+    // Apply new theme
+    document.body.className = document.body.className.replace(/roblox-pro-theme-\w+/g, '');
+    this.applyTheme();
     
     // Close settings panel
     document.querySelector('.roblox-pro-panel').remove();
+  }
+
+  openAdvancedSettings() {
+    chrome.runtime.openOptionsPage();
   }
 
   toggleAntiAfk() {
@@ -417,8 +479,12 @@ class RobloxPro {
     }
     
     // Update button appearance
-    const btn = document.querySelector('.roblox-pro-btn:nth-child(6)');
-    btn.className = `roblox-pro-btn ${this.settings.antiAfkEnabled ? 'success' : ''}`;
+    const buttons = document.querySelectorAll('.roblox-pro-btn');
+    buttons.forEach(btn => {
+      if (btn.textContent.includes('Anti-AFK')) {
+        btn.className = `roblox-pro-btn ${this.settings.antiAfkEnabled ? 'success' : ''}`;
+      }
+    });
   }
 
   startAntiAfk() {
@@ -458,10 +524,10 @@ class RobloxPro {
       const playerList = document.getElementById('player-list-content');
       if (playerList) {
         playerList.innerHTML = `
-          <div>🟢 Player1 - Level 50</div>
-          <div>🟢 Player2 - Level 32</div>
-          <div>🟡 Player3 - Level 18</div>
-          <div>🔴 Player4 - Level 5</div>
+          <div style="margin: 5px 0; padding: 5px; background: rgba(255,255,255,0.1); border-radius: 3px;">🟢 Player1 - Level 50</div>
+          <div style="margin: 5px 0; padding: 5px; background: rgba(255,255,255,0.1); border-radius: 3px;">🟢 Player2 - Level 32</div>
+          <div style="margin: 5px 0; padding: 5px; background: rgba(255,255,255,0.1); border-radius: 3px;">🟡 Player3 - Level 18</div>
+          <div style="margin: 5px 0; padding: 5px; background: rgba(255,255,255,0.1); border-radius: 3px;">🔴 Player4 - Level 5</div>
         `;
       }
       
@@ -487,6 +553,37 @@ class RobloxPro {
       
       const created = document.getElementById('game-created');
       if (created) created.textContent = '2 years ago';
+    }, 1000);
+  }
+
+  loadServerList() {
+    setTimeout(() => {
+      const serverList = document.getElementById('server-list');
+      if (serverList) {
+        serverList.innerHTML = `
+          <div class="roblox-pro-server-item">
+            <div class="roblox-pro-server-info">
+              <div class="roblox-pro-server-players">15/20 Players</div>
+              <div class="roblox-pro-server-ping">Ping: 45ms</div>
+            </div>
+            <button class="roblox-pro-btn success" onclick="robloxPro.joinServer('123')">Join</button>
+          </div>
+          <div class="roblox-pro-server-item">
+            <div class="roblox-pro-server-info">
+              <div class="roblox-pro-server-players">8/20 Players</div>
+              <div class="roblox-pro-server-ping">Ping: 67ms</div>
+            </div>
+            <button class="roblox-pro-btn success" onclick="robloxPro.joinServer('456')">Join</button>
+          </div>
+          <div class="roblox-pro-server-item">
+            <div class="roblox-pro-server-info">
+              <div class="roblox-pro-server-players">18/20 Players</div>
+              <div class="roblox-pro-server-ping">Ping: 23ms</div>
+            </div>
+            <button class="roblox-pro-btn success" onclick="robloxPro.joinServer('789')">Join</button>
+          </div>
+        `;
+      }
     }, 1000);
   }
 
@@ -528,7 +625,8 @@ class RobloxPro {
     if (this.settings.autoJoinEnabled && window.location.href.includes('/games/')) {
       setTimeout(() => {
         const playButton = document.querySelector('[data-testid="play-button"]') || 
-                          document.querySelector('.btn-primary-lg');
+                          document.querySelector('.btn-primary-lg') ||
+                          document.querySelector('.btn-primary-md');
         if (playButton && !playButton.disabled) {
           // Auto-click play button with small delay
           setTimeout(() => playButton.click(), 2000);
@@ -537,6 +635,7 @@ class RobloxPro {
     }
   }
 
+  // Additional utility methods
   copyGameLink() {
     navigator.clipboard.writeText(window.location.href);
     RobloxUtils.showNotification('Game link copied!', 'success');
@@ -545,6 +644,49 @@ class RobloxPro {
   favoriteGame() {
     // This would interact with Roblox's favorite system
     RobloxUtils.showNotification('Added to favorites!', 'success');
+  }
+
+  shareGame() {
+    const gameTitle = document.title.replace(' - Roblox', '');
+    const shareText = `Check out this awesome Roblox game: ${gameTitle} ${window.location.href}`;
+    navigator.clipboard.writeText(shareText);
+    RobloxUtils.showNotification('Share text copied!', 'success');
+  }
+
+  refreshPlayerList() {
+    RobloxUtils.showNotification('Refreshing player list...', 'info');
+    this.loadPlayerData();
+  }
+
+  exportPlayerList() {
+    const playerData = "Player1,Level 50\nPlayer2,Level 32\nPlayer3,Level 18\nPlayer4,Level 5";
+    const blob = new Blob([playerData], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'roblox_players.csv';
+    a.click();
+    RobloxUtils.showNotification('Player list exported!', 'success');
+  }
+
+  refreshServerList() {
+    RobloxUtils.showNotification('Refreshing servers...', 'info');
+    this.loadServerList();
+  }
+
+  joinBestServer() {
+    RobloxUtils.showNotification('Joining best server...', 'success');
+    // Implementation would join the server with best ping/player ratio
+  }
+
+  joinRandomServer() {
+    RobloxUtils.showNotification('Joining random server...', 'success');
+    // Implementation would join a random server
+  }
+
+  joinServer(serverId) {
+    RobloxUtils.showNotification(`Joining server ${serverId}...`, 'success');
+    // Implementation would join specific server
   }
 }
 
