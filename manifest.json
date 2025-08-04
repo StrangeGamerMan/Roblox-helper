@@ -1,13 +1,37 @@
 {
   "manifest_version": 3,
-  "name": "Roblox Shortcut",
-  "description": "Opens Roblox.com in one click!",
-  "version": "1.0",
+  "name": "Roblox Pro Extension",
+  "description": "Advanced Roblox tools with server hopping, player tracking, auto-join, and premium features!",
+  "version": "2.0",
   "action": {
-    "default_title": "Go to Roblox!"
+    "default_title": "Roblox Pro Tools",
+    "default_popup": "popup.html"
   },
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["tabs"]
+  "content_scripts": [
+    {
+      "matches": ["*://*.roblox.com/*"],
+      "js": ["utils.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.roblox.com/*",
+    "*://*.rbxcdn.com/*"
+  ],
+  "options_page": "settings.html",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
 }
