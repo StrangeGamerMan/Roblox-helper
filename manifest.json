@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Roblox Shortcut",
+  "description": "Opens Roblox.com in one click!",
+  "version": "1.0",
+  "action": {
+    "default_title": "Go to Roblox!"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["tabs"]
+}
