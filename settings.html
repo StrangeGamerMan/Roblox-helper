@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Roblox Pro - Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <header class="settings-header">
+      <h1>🚀 Roblox Pro Settings</h1>
+      <p>Customize your Roblox experience</p>
+    </header>
+
+    <div class="settings-content">
+      <section class="settings-section">
+        <h2>⚡ Auto-Features</h2>
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="autoJoin">Auto-Join Games</label>
+            <p>Automatically join games when visiting game pages</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="autoJoin" class="toggle">
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="serverHop">Server Hopping</label>
+            <p>Enable server hopping functionality</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="serverHop" class="toggle">
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="antiAfk">Anti-AFK</label>
+            <p>Prevent getting kicked for being idle</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="antiAfk" class="toggle">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="autoRefresh">Auto-Refresh</label>
+            <p>Automatically refresh Roblox pages</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="autoRefresh" class="toggle">
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>🎯 Server Preferences</h2>
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="playerThreshold">Preferred Player Count</label>
+            <p>Target number of players when joining servers</p>
+          </div>
+          <div class="setting-control">
+            <input type="range" id="playerThreshold" min="1" max="50" class="slider">
+            <span id="playerThresholdValue">10</span>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="refreshInterval">Auto-Refresh Interval (seconds)</label>
+            <p>How often to refresh pages when auto-refresh is enabled</p>
+          </div>
+          <div class="setting-control">
+            <input type="range" id="refreshInterval" min="10" max="300" class="slider">
+            <span id="refreshIntervalValue">30</span>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="regionPref">Preferred Server Region</label>
+            <p>Choose your preferred server region</p>
+          </div>
+          <div class="setting-control">
+            <select id="regionPref" class="select">
+              <option value="auto">Auto (Closest)</option>
+              <option value="us-east">US East</option>
+              <option value="us-west">US West</option>
+              <option value="europe">Europe</option>
+              <option value="asia">Asia</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>🎨 Appearance</h2>
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="theme">Theme</label>
+            <p>Choose your preferred color theme</p>
+          </div>
+          <div class="setting-control">
+            <select id="theme" class="select">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="green">Green</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="toolbarPosition">Toolbar Position</label>
+            <p>Where to display the extension toolbar</p>
+          </div>
+          <div class="setting-control">
+            <select id="toolbarPosition" class="select">
+              <option value="top-right">Top Right</option>
+              <option value="top-left">Top Left</option>
+              <option value="bottom-right">Bottom Right</option>
+              <option value="bottom-left">Bottom Left</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="compactMode">Compact Mode</label>
+            <p>Use smaller UI elements</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="compactMode" class="toggle">
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>🔔 Notifications</h2>
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="notifications">Enable Notifications</label>
+            <p>Show notifications for extension events</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="notifications" class="toggle">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="friendNotifications">Friend Activity</label>
+            <p>Notify when friends come online or join games</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="friendNotifications" class="toggle">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="gameNotifications">Game Updates</label>
+            <p>Notify about updates to favorited games</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="gameNotifications" class="toggle">
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>📊 Data & Privacy</h2>
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="dataCollection">Usage Analytics</label>
+            <p>Help improve the extension by sharing anonymous usage data</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="dataCollection" class="toggle">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label>Clear Extension Data</label>
+            <p>Reset all settings and clear stored data</p>
+          </div>
+          <div class="setting-control">
+            <button id="clearData" class="btn danger">Clear All Data</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label>Export Settings</label>
+            <p>Save your settings to a file</p>
+          </div>
+          <div class="setting-control">
+            <button id="exportSettings" class="btn">Export</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label>Import Settings</label>
+            <p>Load settings from a file</p>
+          </div>
+          <div class="setting-control">
+            <input type="file" id="importSettings" accept=".json" style="display: none;">
+            <button id="importBtn" class="btn">Import</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="settings-footer">
+      <div class="footer-actions">
+        <button id="resetSettings" class="btn secondary">Reset to Defaults</button>
+        <button id="saveSettings" class="btn primary">Save Settings</button>
+      </div>
+      <p class="footer-text">Roblox Pro Extension v2.0 | Made with ❤️ for the Roblox community</p>
+    </footer>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
