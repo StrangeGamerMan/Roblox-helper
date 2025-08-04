@@ -1,0 +1,429 @@
+/* Content script styles for Roblox Pro Extension */
+
+.roblox-pro-toolbar {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 15px;
+  border-radius: 10px;
+  z-index: 10000;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 200px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.roblox-pro-toolbar.top-left {
+  top: 60px;
+  left: 20px;
+  right: auto;
+}
+
+.roblox-pro-toolbar.bottom-right {
+  bottom: 20px;
+  top: auto;
+}
+
+.roblox-pro-toolbar.bottom-left {
+  bottom: 20px;
+  left: 20px;
+  right: auto;
+  top: auto;
+}
+
+.roblox-pro-toolbar.compact {
+  padding: 10px;
+  min-width: 150px;
+}
+
+.roblox-pro-toolbar.compact .roblox-pro-btn {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+.roblox-pro-btn {
+  background: #00b2ff;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  margin: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.roblox-pro-btn:hover {
+  background: #0095d9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 178, 255, 0.3);
+}
+
+.roblox-pro-btn.danger {
+  background: #ff4757;
+}
+
+.roblox-pro-btn.danger:hover {
+  background: #ff3742;
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+}
+
+.roblox-pro-btn.success {
+  background: #2ed573;
+}
+
+.roblox-pro-btn.success:hover {
+  background: #26d467;
+  box-shadow: 0 2px 8px rgba(46, 213, 115, 0.3);
+}
+
+.roblox-pro-btn.warning {
+  background: #ffa502;
+}
+
+.roblox-pro-btn.warning:hover {
+  background: #ff9500;
+  box-shadow: 0 2px 8px rgba(255, 165, 2, 0.3);
+}
+
+.roblox-pro-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 10001;
+  color: white;
+  min-width: 400px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.roblox-pro-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.roblox-pro-panel-header h3 {
+  margin: 0;
+  color: #00b2ff;
+  font-size: 18px;
+}
+
+.roblox-pro-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.roblox-pro-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.roblox-pro-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #2ed573;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 10002;
+  transform: translateX(400px);
+  transition: transform 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 300px;
+}
+
+.roblox-pro-notification.show {
+  transform: translateX(0);
+}
+
+.roblox-pro-notification.error {
+  background: #ff4757;
+}
+
+.roblox-pro-notification.info {
+  background: #00b2ff;
+}
+
+.roblox-pro-notification.warning {
+  background: #ffa502;
+}
+
+.roblox-pro-server-info {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.roblox-pro-player-list {
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.roblox-pro-player-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.roblox-pro-player-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.roblox-pro-player-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.roblox-pro-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.roblox-pro-stat {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s;
+}
+
+.roblox-pro-stat:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.roblox-pro-stat strong {
+  display: block;
+  color: #00b2ff;
+  font-size: 12px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.roblox-pro-game-card {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.roblox-pro-game-card h4 {
+  color: #00b2ff;
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.roblox-pro-toggle {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.roblox-pro-toggle input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.roblox-pro-toggle label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.roblox-pro-server-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.roblox-pro-server-item {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.roblox-pro-server-item:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.roblox-pro-server-info {
+  flex: 1;
+}
+
+.roblox-pro-server-players {
+  font-weight: bold;
+  color: #00b2ff;
+}
+
+.roblox-pro-server-ping {
+  color: #2ed573;
+  font-size: 12px;
+}
+
+.roblox-pro-loading {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+}
+
+.roblox-pro-loading::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #333;
+  border-top: 2px solid #00b2ff;
+  border-radius: 50%;
+  animation: roblox-pro-spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes roblox-pro-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Theme variations */
+.roblox-pro-theme-light .roblox-pro-toolbar {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.roblox-pro-theme-light .roblox-pro-panel {
+  background: white;
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.roblox-pro-theme-blue .roblox-pro-btn {
+  background: #4facfe;
+}
+
+.roblox-pro-theme-blue .roblox-pro-btn:hover {
+  background: #00f2fe;
+}
+
+.roblox-pro-theme-purple .roblox-pro-btn {
+  background: #a18cd1;
+}
+
+.roblox-pro-theme-purple .roblox-pro-btn:hover {
+  background: #fbc2eb;
+}
+
+.roblox-pro-theme-green .roblox-pro-btn {
+  background: #56ab2f;
+}
+
+.roblox-pro-theme-green .roblox-pro-btn:hover {
+  background: #a8e6cf;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .roblox-pro-toolbar {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    top: auto;
+    width: auto;
+    min-width: auto;
+  }
+  
+  .roblox-pro-panel {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    transform: none;
+    min-width: auto;
+    max-width: none;
+    max-height: none;
+  }
+  
+  .roblox-pro-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Accessibility improvements */
+.roblox-pro-btn:focus {
+  outline: 2px solid #00b2ff;
+  outline-offset: 2px;
+}
+
+.roblox-pro-toggle input:focus {
+  outline: 2px solid #00b2ff;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .roblox-pro-toolbar {
+    border: 2px solid white;
+  }
+  
+  .roblox-pro-btn {
+    border: 1px solid white;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .roblox-pro-btn,
+  .roblox-pro-notification,
+  .roblox-pro-stat {
+    transition: none;
+  }
+  
+  .roblox-pro-btn:hover {
+    transform: none;
+  }
+}
