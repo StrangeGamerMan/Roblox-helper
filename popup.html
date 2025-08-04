@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <h2>🚀 Roblox Pro</h2>
+      <span class="version">v2.0</span>
+    </div>
+    
+    <div class="quick-actions">
+      <button id="openRoblox" class="action-btn primary">
+        🎮 Open Roblox
+      </button>
+      <button id="openDiscover" class="action-btn">
+        🔍 Discover Games
+      </button>
+    </div>
+    
+    <div class="favorites-section">
+      <h3>⭐ Quick Favorites</h3>
+      <div id="favoritesList" class="favorites-list">
+        <!-- Populated by popup.js -->
+      </div>
+      <button id="addFavorite" class="action-btn small">+ Add Current Game</button>
+    </div>
+    
+    <div class="recent-section">
+      <h3>🕒 Recently Played</h3>
+      <div id="recentList" class="recent-list">
+        <!-- Populated by popup.js -->
+      </div>
+    </div>
+    
+    <div class="stats-section">
+      <h3>📊 Quick Stats</h3>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Games Played</span>
+          <span class="stat-value" id="gamesPlayed">--</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Hours Today</span>
+          <span class="stat-value" id="hoursToday">--</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <button id="openSettings" class="footer-btn">⚙️ Settings</button>
+      <button id="refreshData" class="footer-btn">🔄 Refresh</button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
